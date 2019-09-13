@@ -11,6 +11,9 @@ canvas.height = rect.height * scale;
 
 const range = document.getElementById('range');
 const color = document.getElementById('color');
+const clearBtn = document.getElementById('clear');
+
+clearBtn.addEventListener("click", () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 
 const mouseMove$ = fromEvent(canvas, 'mousemove');
 const mouseDown$ = fromEvent(canvas, 'mousedown');

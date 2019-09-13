@@ -18,6 +18,10 @@
       width: 100%;
       height: 400px;
     }
+    .sb-row {
+      display: flex;
+      justify-content: space-between;
+    }
   </style>
 </head>
 <body>
@@ -27,8 +31,9 @@
   <div class="input-field">
     <input type="range" min="1" max="4" value="2" id="range">
   </div>
-  <div class="input-field">
+  <div class="input-field sb-row">
     <input type="color" id="color">
+    <a class="waves-effect waves-light btn" id="clear">Clear</a>
   </div>
 </div>
 
