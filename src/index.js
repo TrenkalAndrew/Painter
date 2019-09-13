@@ -22,16 +22,26 @@ const range$ = fromEvent(range, 'input')
         startWith(range.value)
     );
 
+const color$ = fromEvent(color, 'input')
+    .pipe(
+        map(e => e.target.value),
+        startWith(color.value)
+    );
+
 const stream$ = mouseDown$
     .pipe(
-        withLatestFrom(range$, (_, range) => range),
-        switchMap((lineWidth) => {
+        withLatestFrom(range$, color$, (_, lineWidth, color) => ({
+            lineWidth,
+            color
+        })),
+        switchMap(({lineWidth, color}) => {
             return mouseMove$
                 .pipe(
                     map(e => ({
                         x: e.offsetX,
                         y: e.offsetY,
-                        lineWidth
+                        lineWidth,
+                        color
                     })),
                     pairwise(),
                     takeUntil(mouseUp$),
@@ -43,9 +53,10 @@ const stream$ = mouseDown$
 
 stream$
     .subscribe(([from, to]) => {
-        const {lineWidth} = from;
+        const {lineWidth, color} = from;
 
         ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = color;
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
         ctx.lineTo(to.x, to.y);
